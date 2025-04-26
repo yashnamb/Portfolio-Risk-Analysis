@@ -49,8 +49,8 @@ pip install -r requirements.txt
 
 1. Clone this repository:
     ```bash
-    git clone https://github.com/your-username/financial-portfolio-analyzer.git
-    cd financial-portfolio-analyzer
+    git clone https://github.com/yashnamb/Portfolio-Risk-Analysis.git
+    cd Portfolio-Risk-Analysis
     ```
 
 2. Install the required packages.
