@@ -1,12 +1,8 @@
-# Portfolio-Risk-Analysis
-Streamlit App project for BA870 Financial Analytics at BU
-Here's a clean draft for your **README.md** for the **Financial Portfolio Analyzer** app you built (`app_final.py`):
-
----
-
 # 📈 Financial Portfolio Analyzer
 
 An interactive Streamlit web app to **analyze** and **visualize** your investment portfolio using real-time data, technical indicators, risk metrics, clustering, and Monte Carlo simulations.
+
+** Streamlit App Link: https://portfolio-risk-analysis-ym.streamlit.app/ **
 
 ---
 
