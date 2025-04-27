@@ -758,7 +758,7 @@ def plot_portfolio_performance(portfolio_data):
     
     fig.add_trace(
         go.Scatter(
-            x=prices_df.index,
+            x=portfolio_data.index,
             y=portfolio_data['portfolio_cumulative_returns'],
             mode='lines',
             name='Portfolio',
@@ -769,7 +769,7 @@ def plot_portfolio_performance(portfolio_data):
     if 'market_cumulative_returns' in portfolio_data:
         fig.add_trace(
             go.Scatter(
-                x=prices_df.index,
+                x=portfolio_data.index,
                 y=portfolio_data['market_cumulative_returns'],
                 mode='lines',
                 name='S&P 500',
