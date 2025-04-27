@@ -913,7 +913,7 @@ def plot_drawdown(portfolio_returns):
         yaxis=dict(
             tickformat='.1%',
             range=[-1, 0]
-    )
+    ))
     
     return fig
 
