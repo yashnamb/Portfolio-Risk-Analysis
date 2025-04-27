@@ -10,6 +10,7 @@ from sklearn.decomposition import PCA
 from scipy.optimize import minimize
 import datetime
 from datetime import timedelta
+import statsmodels.api as sm
 
 # App configuration
 st.set_page_config(
@@ -297,7 +298,19 @@ def calculate_portfolio_performance(historical_data, investments):
     portfolio_annual_vol = portfolio_returns.std() * np.sqrt(trading_days_per_year)
     risk_free_rate = 0.02
     portfolio_sharpe_ratio = (portfolio_annual_return - risk_free_rate) / portfolio_annual_vol
-    
+
+    # --- Beta calculation using OLS regression ---
+    if not market_returns.empty and not portfolio_returns.empty:
+        aligned = pd.concat([portfolio_returns, market_returns], axis=1).dropna()
+        aligned.columns = ["Portfolio_Return", "Market_Return"]
+        X = sm.add_constant(aligned["Market_Return"])
+        y = aligned["Portfolio_Return"]
+        model = sm.OLS(y, X).fit()
+        beta = model.params["Market_Return"]
+    else:
+        beta = np.nan
+    # --------------------------------------------
+
     result = {
         'portfolio_returns': portfolio_returns,
         'portfolio_cumulative_returns': portfolio_cumulative_returns,
@@ -306,6 +319,7 @@ def calculate_portfolio_performance(historical_data, investments):
         'portfolio_annual_return': portfolio_annual_return,
         'portfolio_annual_vol': portfolio_annual_vol,
         'portfolio_sharpe_ratio': portfolio_sharpe_ratio,
+        'portfolio_beta': beta,
         'weights': weights
     }
     
@@ -1297,7 +1311,7 @@ def main():
             st.header("Portfolio Overview")
             
             # Portfolio metrics
-            col1, col2, col3, col4 = st.columns(4)
+            col1, col2, col3, col4, col5 = st.columns(5)
             
             total_value = sum(investments.values())
             
@@ -1336,13 +1350,26 @@ def main():
                         "N/A",
                         delta="No data available"
                     )
-                
+            
             with col4:
                 sharpe = portfolio_data['portfolio_sharpe_ratio']
                 st.metric(
                     "Sharpe Ratio", 
                     f"{sharpe:.2f}"
                 )
+            
+            with col5:
+                beta = portfolio_data.get('portfolio_beta', None)
+                if beta is not None and not np.isnan(beta):
+                    st.metric(
+                        "Beta (vs S&P 500)",
+                        f"{beta:.2f}"
+                    )
+                else:
+                    st.metric(
+                        "Beta (vs S&P 500)",
+                        "N/A"
+                    )
             
             # Portfolio performance chart
             st.markdown("### Portfolio Performance")
