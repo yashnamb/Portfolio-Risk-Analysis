@@ -881,7 +881,11 @@ def plot_risk_return(portfolio_data, historical_data):
 
 def plot_drawdown(portfolio_returns):
     """Create a plot showing portfolio drawdown over time."""
-    cum_returns = (1 + portfolio_returns).cumprod()
+    # Safety cleaning
+    portfolio_returns1 = portfolio_returns.clip(lower=-1, upper=1)
+    portfolio_returns1 = portfolio_returns1.replace([np.inf, -np.inf], np.nan).dropna()
+    
+    cum_returns = (1 + portfolio_returns1).cumprod()
     running_max = cum_returns.cummax()
     drawdown = (cum_returns / running_max) - 1
     
