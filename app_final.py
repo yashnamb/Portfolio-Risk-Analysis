@@ -893,6 +893,7 @@ def plot_drawdown(portfolio_returns):
     
     fig.add_trace(
         go.Scatter(
+            x=portfolio_returns1.index,
             y=drawdown * 100,
             fill='tozeroy',
             mode='lines',
@@ -909,7 +910,9 @@ def plot_drawdown(portfolio_returns):
         height=400,
         template='plotly_white',
         hovermode='x unified',
-        yaxis=dict(tickformat='.1%')
+        yaxis=dict(
+            tickformat='.1%',
+            range=[-1, 0]
     )
     
     return fig
@@ -925,6 +928,7 @@ def plot_rolling_metrics(portfolio_returns, window=30):
     
     fig.add_trace(
         go.Scatter(
+            x=rolling_returns.index,
             y=rolling_returns,
             mode='lines',
             name='Rolling Returns',
@@ -934,6 +938,7 @@ def plot_rolling_metrics(portfolio_returns, window=30):
     
     fig.add_trace(
         go.Scatter(
+            x=rolling_vol.index,
             y=rolling_vol,
             mode='lines',
             name='Rolling Volatility',
@@ -943,6 +948,7 @@ def plot_rolling_metrics(portfolio_returns, window=30):
     
     fig.add_trace(
         go.Scatter(
+            x=rolling_sharpe.index,
             y=rolling_sharpe,
             mode='lines',
             name='Rolling Sharpe Ratio',
