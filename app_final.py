@@ -264,7 +264,9 @@ def calculate_portfolio_performance(historical_data, investments):
     
     portfolio_data = data[portfolio_tickers]
     returns = portfolio_data.pct_change().dropna()
-    
+    returns = returns.clip(lower=-1, upper=1)
+    returns = returns.replace([np.inf, -np.inf], np.nan).dropna()
+
     if returns.empty:
         st.error("No valid returns data available after processing")
         return None
