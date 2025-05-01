@@ -1,71 +1,75 @@
 # 📈 Financial Portfolio Analyzer
 
-An interactive Streamlit web app to **analyze** and **visualize** your investment portfolio using real-time data, technical indicators, risk metrics, clustering, and Monte Carlo simulations.
+A full-stack Streamlit dashboard to analyze, simulate, and visualize your investment portfolio with advanced financial metrics, real-time data, and interactive plots.
 
-**Streamlit App Link: https://portfolio-risk-analysis-ym.streamlit.app/**
-
----
-
-## 🚀 Features
-- 📊 **Portfolio Performance Analysis**: Compare your portfolio vs S&P 500.
-- 📈 **Technical Indicators**: Moving averages, Bollinger Bands, RSI for each stock.
-- 🎯 **Monte Carlo Simulation**: Forecast future portfolio value under uncertainty.
-- ⚡ **Risk Metrics**: VaR (Value at Risk), volatility, max drawdown.
-- 🧩 **Stock Clustering**: Machine Learning to group stocks with similar behavior.
-- 🏛️ **Sector Analysis**: Visualize sector allocation of your investments.
+Created for the BA870 Financial Analytics course by  
+**Yashna Meher, Hemangi Suthar, Mahika Jain**
 
 ---
 
-## 🛠️ Built With
-- [Streamlit](https://streamlit.io/) — For the web interface
-- [Pandas](https://pandas.pydata.org/) — Data processing
-- [NumPy](https://numpy.org/) — Numerical computations
-- [yFinance](https://pypi.org/project/yfinance/) — Stock price data
-- [Plotly](https://plotly.com/python/) — Interactive visualizations
-- [scikit-learn](https://scikit-learn.org/stable/) — Machine learning (K-Means, PCA)
-- [SciPy](https://scipy.org/) — Portfolio optimization
+## 🔍 Features
+
+- ✅ **Portfolio Performance** (vs. S&P 500)
+- ✅ **Monte Carlo Simulation** for future projections
+- ✅ **Risk Metrics** (Volatility, Drawdown, VaR)
+- ✅ **Technical Indicators** (Moving Averages, Bollinger Bands, RSI)
+- ✅ **Stock Clustering** (K-Means based on return patterns)
+- ✅ **Sector Allocation**, **Asset Correlation**, and **Drawdown Analysis**
+- ✅ **Real-Time Prices** and S&P 500 market context
 
 ---
 
-## 📦 Installation
+## 📦 Data Sources
 
-```bash
-pip install streamlit pandas numpy yfinance plotly scikit-learn scipy
-```
+### 📉 Historical Data
+Pulled using the `yfinance` API:
+- Daily adjusted closing prices for user-selected stocks
+- Historical S&P 500 index data (`^GSPC`) for benchmark comparison
+- Used in: performance, risk metrics, Monte Carlo simulation, clustering
 
-Or use the `requirements.txt` file:
+### 📈 Real-Time Data
+- Real-time stock prices fetched using `yfinance.Ticker().history(period='1d')`
+- Used to calculate live total investment value and show recent prices
+
+---
+
+## ⚙️ APIs & Libraries
+
+| Tool/Library      | Purpose |
+|-------------------|---------|
+| `yfinance`        | Pull historical & real-time stock data (Yahoo Finance) |
+| `plotly`          | Generate interactive visualizations |
+| `pandas`, `numpy` | Data manipulation and calculation |
+| `scikit-learn`    | Clustering (KMeans), scaling |
+| `statsmodels`     | OLS regression (Beta calculation) |
+| `streamlit`       | Interactive web app frontend |
+| `datetime`        | Date handling for simulations and plots |
+
+---
+
+## 🧮 Simulations & Metrics
+
+- **Monte Carlo Simulation**: Projects future portfolio value using normal returns
+- **Efficient Frontier**: Optimal risk-return portfolios using `scipy.optimize`
+- **Sharpe Ratio**: Risk-adjusted return
+- **Value at Risk (VaR)**: 95% and 99% threshold risk
+- **Beta**: Sensitivity to S&P 500
+- **Drawdown**: Maximum drop from a peak
+
+---
+
+## 📊 Technical Analysis
+
+For selected individual stocks:
+- **20-day & 50-day Moving Averages**
+- **Bollinger Bands**
+- **RSI (Relative Strength Index)**
+- Optional: Add volume bars (under development)
+
+---
+
+## 🚀 Getting Started
 
 ```bash
 pip install -r requirements.txt
-```
-
----
-
-## 🧑‍💻 How to Run Locally
-
-1. Clone this repository:
-    ```bash
-    git clone https://github.com/yashnamb/Portfolio-Risk-Analysis.git
-    cd Portfolio-Risk-Analysis
-    ```
-
-2. Install the required packages.
-
-3. Run the app:
-    ```bash
-    streamlit run app_final.py
-    ```
-
-
-## ✨ Credits
-Developed for **BA870 Financial Analytics** course at Boston University by:
-- Yashna Meher
-- Hemangi Suthar
-- Mahika Jain
-
----
-
-## 📜 License
-MIT License — free to use with attribution.
-
----
+streamlit run app_final.py
