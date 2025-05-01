@@ -2,8 +2,7 @@
 
 > Built by **Mahika Jain**, **Hemangi Suthar** and **Yashna Meher**
 
-🔗 **Live App:** https://financial-portfolio-risk-analysis-ba865.streamlit.app/
-
+🔗 **Live App:** https://portfolio-risk-analysis-ym.streamlit.app/
 ---
 
 A full-stack Streamlit dashboard to analyze, simulate, and visualize your investment portfolio with advanced financial metrics, real-time data, and interactive plots. User centric for first time starters, part time investors and students who are just breaking into stock market.
