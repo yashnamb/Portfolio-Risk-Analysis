@@ -1,4 +1,4 @@
-# 📈 Financial Portfolio Analyzer
+# Financial Portfolio Analyzer
 
 A full-stack Streamlit dashboard to analyze, simulate, and visualize your investment portfolio with advanced financial metrics, real-time data, and interactive plots.
 
@@ -7,19 +7,19 @@ Created for the BA870 Financial Analytics course by
 
 ---
 
-## 🔍 Features
+##  Features
 
-- ✅ **Portfolio Performance** (vs. S&P 500)
-- ✅ **Monte Carlo Simulation** for future projections
-- ✅ **Risk Metrics** (Volatility, Drawdown, VaR)
-- ✅ **Technical Indicators** (Moving Averages, Bollinger Bands, RSI)
-- ✅ **Stock Clustering** (K-Means based on return patterns)
-- ✅ **Sector Allocation**, **Asset Correlation**, and **Drawdown Analysis**
-- ✅ **Real-Time Prices** and S&P 500 market context
+-  **Portfolio Performance** (vs. S&P 500)
+-  **Monte Carlo Simulation** for future projections
+-  **Risk Metrics** (Volatility, Drawdown, VaR)
+-  **Technical Indicators** (Moving Averages, Bollinger Bands, RSI)
+-  **Stock Clustering** (K-Means based on return patterns)
+-  **Sector Allocation**, **Asset Correlation**, and **Drawdown Analysis**
+-  **Real-Time Prices** and S&P 500 market context
 
 ---
 
-## 📦 Data Sources
+##  Data Sources
 
 ### 📉 Historical Data
 Pulled using the `yfinance` API:
@@ -33,7 +33,7 @@ Pulled using the `yfinance` API:
 
 ---
 
-## ⚙️ APIs & Libraries
+## APIs & Libraries
 
 | Tool/Library      | Purpose |
 |-------------------|---------|
