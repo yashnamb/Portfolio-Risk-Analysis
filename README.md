@@ -1,12 +1,15 @@
-# Financial Portfolio Analyzer
+# 📊 Portfolio Risk Analyzer: Real-Time Financial Analytics Dashboard
+
+> Built by **Mahika Jain**, **Hemangi Suthar** and **Yashna Meher**
+
+🔗 **Live App:** https://financial-portfolio-risk-analysis-ba865.streamlit.app/
+
+---
 
 A full-stack Streamlit dashboard to analyze, simulate, and visualize your investment portfolio with advanced financial metrics, real-time data, and interactive plots. User centric for first time starters, part time investors and students who are just breaking into stock market.
 
 ## ⚠️ Due to rate limits in the yfinance library, the Yahoo Finance API may not work reliably on the deployed Streamlit app.
 Please clone the repo and run the app locally to ensure full functionality.
-
-Created for the BA870 Financial Analytics course by  
-** Hemangi Suthar, Mahika Jain, Yashna Meher **
 
 ---
 
