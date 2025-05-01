@@ -10,11 +10,10 @@ A full-stack Streamlit dashboard to analyze, simulate, and visualize your invest
 
 ## ⚠️ Due to rate limits in the yfinance library, the Yahoo Finance API may not work reliably on the deployed Streamlit app.
 Please clone the repo and run the app locally to ensure full functionality.
-start by clicking on analyze after selecting tickers and amount to see other features of the app.
 ---
 
 ##  Features
-
+-  **start by clicking on analyze after selecting tickers and amount to see other features of the app.**
 -  **Portfolio Performance** (vs. S&P 500)
 -  **Monte Carlo Simulation** for future projections
 -  **Risk Metrics** (Volatility, Drawdown, VaR)
