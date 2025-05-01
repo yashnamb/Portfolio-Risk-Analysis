@@ -3,7 +3,7 @@
 A full-stack Streamlit dashboard to analyze, simulate, and visualize your investment portfolio with advanced financial metrics, real-time data, and interactive plots. User centric for first time starters, part time investors and students who are just breaking into stock market.
 
 Created for the BA870 Financial Analytics course by  
-** Hemangi Suthar, Mahika Jain, yashna Meher**
+** Hemangi Suthar, Mahika Jain, Yashna Meher **
 
 ---
 
