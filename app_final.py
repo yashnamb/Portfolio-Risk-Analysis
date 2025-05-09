@@ -707,7 +707,8 @@ def calculate_risk_metrics(portfolio_data, historical_data, investments):
         template='plotly_white',
         showlegend=False
     )
-    
+    ef_df = pd.DataFrame(efficient_frontier)
+
     ef_plot = px.scatter(
         ef_df, 
         x='volatility', 
