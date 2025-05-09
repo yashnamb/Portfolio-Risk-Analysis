@@ -1115,10 +1115,10 @@ def plot_sector_allocation(selected_tickers, ticker_security_pairs, investments)
     
     return fig
 
-def perform_sp500_clustering(historical_data, n_clusters=5):
+def perform_sp500_clustering(prices_df, n_clusters=3):
     """Perform K-means clustering on all S&P 500 stocks based on returns and volatility."""
     # Calculate returns and volatility for all stocks
-    returns = historical_data.pct_change().dropna()
+    returns = prices_df .pct_change().dropna()
     annual_returns = (1 + returns.mean()) ** 252 - 1
     annual_volatility = returns.std() * np.sqrt(252)
     
@@ -1550,21 +1550,16 @@ def main():
                 "Number of Clusters",
                 min_value=3,
                 max_value=8,
-                value=5,
+                value=3,
                 step=1
             )
             
-            if len(historical_data.columns) >= n_clusters:
-                sp500_cluster_fig, sp500_cluster_stats = perform_sp500_clustering(historical_data, n_clusters)
+            if len(prices_df .columns) >= n_clusters:
+                sp500_cluster_fig, sp500_cluster_stats = perform_sp500_clustering(prices_df, n_clusters)
                 st.plotly_chart(sp500_cluster_fig, use_container_width=True, key="sp500_cluster_plot")
                 st.dataframe(sp500_cluster_stats, use_container_width=True)
             else:
                 st.warning(f"⚠️ Not enough stocks to create {n_clusters} clusters. Please select more stocks.")
-
-            st.plotly_chart(sp500_cluster_fig, use_container_width=True)
-            
-            st.markdown("### Cluster Statistics")
-            st.dataframe(sp500_cluster_stats, use_container_width=True)
             
             st.markdown("""
             #### Interpretation:
