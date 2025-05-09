@@ -1115,10 +1115,20 @@ def plot_sector_allocation(selected_tickers, ticker_security_pairs, investments)
     
     return fig
 
-def perform_sp500_clustering(prices_df, n_clusters=3):
+def perform_sp500_clustering(start_date, end_date, n_clusters=5):
     """Perform K-means clustering on all S&P 500 stocks based on returns and volatility."""
+    # Get all S&P 500 tickers
+    ticker_security_pairs = load_sp500_tickers()
+    all_tickers = [ticker for ticker, _, _ in ticker_security_pairs]
+    
+    # Fetch data for all S&P 500 stocks
+    historical_data1 = fetch_stock_data(all_tickers, start_date, end_date, include_sp500=False)
+    
+    if historical_data is None or historical_data.empty:
+        return None, None
+    
     # Calculate returns and volatility for all stocks
-    returns = prices_df .pct_change().dropna()
+    returns = historical_data1.pct_change().dropna()
     annual_returns = (1 + returns.mean()) ** 252 - 1
     annual_volatility = returns.std() * np.sqrt(252)
     
@@ -1554,20 +1564,23 @@ def main():
                 step=1
             )
             
-            if len(prices_df .columns) >= n_clusters:
-                sp500_cluster_fig, sp500_cluster_stats = perform_sp500_clustering(prices_df, n_clusters)
-                st.plotly_chart(sp500_cluster_fig, use_container_width=True, key="sp500_cluster_plot")
-                st.dataframe(sp500_cluster_stats, use_container_width=True)
-            else:
-                st.warning(f"⚠️ Not enough stocks to create {n_clusters} clusters. Please select more stocks.")
-            
-            st.markdown("""
-            #### Interpretation:
-            - Each point represents a stock in the S&P 500
-            - Stocks are grouped into clusters based on similar return and volatility characteristics
-            - The 'X' markers show the center of each cluster
-            - Hover over points to see the stock ticker
-            """)
+            with st.spinner("Fetching and analyzing S&P 500 data..."):
+                sp500_cluster_fig, sp500_cluster_stats = perform_sp500_clustering(start_date, end_date, n_clusters)
+                
+                if sp500_cluster_fig is not None:
+                    st.plotly_chart(sp500_cluster_fig, use_container_width=True)
+                    st.markdown("### Cluster Statistics")
+                    st.dataframe(sp500_cluster_stats, use_container_width=True)
+                    
+                    st.markdown("""
+                    #### Interpretation:
+                    - Each point represents a stock in the S&P 500
+                    - Stocks are grouped into clusters based on similar return and volatility characteristics
+                    - The 'X' markers show the center of each cluster
+                    - Hover over points to see the stock ticker
+                    """)
+                else:
+                    st.error("Failed to fetch S&P 500 data. Please try again later.")
     else:
         # Initial state - show instructions
         st.markdown("""
