@@ -1117,93 +1117,101 @@ def plot_sector_allocation(selected_tickers, ticker_security_pairs, investments)
 
 def perform_sp500_clustering(start_date, end_date, n_clusters=5):
     """Perform K-means clustering on all S&P 500 stocks based on returns and volatility."""
-    # Get all S&P 500 tickers
-    ticker_security_pairs = load_sp500_tickers()
-    all_tickers = [ticker for ticker, _, _ in ticker_security_pairs]
-    
-    # Fetch data for all S&P 500 stocks
-    historical_data1 = fetch_stock_data(all_tickers, start_date, end_date, include_sp500=False)
-    
-    if historical_data is None or historical_data.empty:
-        return None, None
-    
-    # Calculate returns and volatility for all stocks
-    returns = historical_data1.pct_change().dropna()
-    annual_returns = (1 + returns.mean()) ** 252 - 1
-    annual_volatility = returns.std() * np.sqrt(252)
-    
-    # Create features DataFrame
-    features = pd.DataFrame({
-        'Return': annual_returns * 100,
-        'Volatility': annual_volatility * 100
-    }).dropna()
-    
-    # Scale features
-    scaler = StandardScaler()
-    scaled_features = scaler.fit_transform(features)
-    
-    # Perform K-means clustering
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-    clusters = kmeans.fit_predict(scaled_features)
-    
-    # Add cluster labels to features
-    features['Cluster'] = clusters
-    features['Cluster'] = features['Cluster'].astype(str)
-    
-    # Create scatter plot
-    fig = px.scatter(
-        features,
-        x='Volatility',
-        y='Return',
-        color='Cluster',
-        title='S&P 500 Stock Clustering by Return and Volatility',
-        labels={
-            'Volatility': 'Annualized Volatility (%)',
-            'Return': 'Annualized Return (%)'
-        },
-        hover_name=features.index,
-        color_discrete_sequence=px.colors.qualitative.G10
-    )
-    
-    # Add cluster centers
-    centers = scaler.inverse_transform(kmeans.cluster_centers_)
-    fig.add_trace(
-        go.Scatter(
-            x=centers[:, 1],
-            y=centers[:, 0],
-            mode='markers',
-            marker=dict(
-                color='black',
-                size=12,
-                symbol='x'
-            ),
-            name='Cluster Centers'
+    try:
+        # Get all S&P 500 tickers
+        ticker_security_pairs = load_sp500_tickers()
+        all_tickers = [ticker for ticker, _, _ in ticker_security_pairs]
+        
+        # Fetch data for all S&P 500 stocks
+        sp500_data = fetch_stock_data(all_tickers, start_date, end_date, include_sp500=False)
+        
+        if sp500_data is None or sp500_data.empty:
+            return None, None
+        
+        # Calculate returns and volatility for all stocks
+        returns = sp500_data.pct_change().dropna()
+        annual_returns = (1 + returns.mean()) ** 252 - 1
+        annual_volatility = returns.std() * np.sqrt(252)
+        
+        # Create features DataFrame
+        features = pd.DataFrame({
+            'Return': annual_returns * 100,
+            'Volatility': annual_volatility * 100
+        }).dropna()
+        
+        if features.empty:
+            return None, None
+        
+        # Scale features
+        scaler = StandardScaler()
+        scaled_features = scaler.fit_transform(features)
+        
+        # Perform K-means clustering
+        kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+        clusters = kmeans.fit_predict(scaled_features)
+        
+        # Add cluster labels to features
+        features['Cluster'] = clusters
+        features['Cluster'] = features['Cluster'].astype(str)
+        
+        # Create scatter plot
+        fig = px.scatter(
+            features,
+            x='Volatility',
+            y='Return',
+            color='Cluster',
+            title='S&P 500 Stock Clustering by Return and Volatility',
+            labels={
+                'Volatility': 'Annualized Volatility (%)',
+                'Return': 'Annualized Return (%)'
+            },
+            hover_name=features.index,
+            color_discrete_sequence=px.colors.qualitative.G10
         )
-    )
-    
-    fig.update_layout(
-        height=600,
-        template='plotly_white',
-        showlegend=True,
-        legend_title_text='Cluster'
-    )
-    
-    # Calculate cluster statistics
-    cluster_stats = features.groupby('Cluster').agg({
-        'Return': ['mean', 'std', 'count'],
-        'Volatility': ['mean', 'std']
-    }).round(2)
-    
-    # Rename columns for better readability
-    cluster_stats.columns = [
-        'Average Return (%)',
-        'Return Std Dev (%)',
-        'Number of Stocks',
-        'Average Volatility (%)',
-        'Volatility Std Dev (%)'
-    ]
-    
-    return fig, cluster_stats
+        
+        # Add cluster centers
+        centers = scaler.inverse_transform(kmeans.cluster_centers_)
+        fig.add_trace(
+            go.Scatter(
+                x=centers[:, 1],
+                y=centers[:, 0],
+                mode='markers',
+                marker=dict(
+                    color='black',
+                    size=12,
+                    symbol='x'
+                ),
+                name='Cluster Centers'
+            )
+        )
+        
+        fig.update_layout(
+            height=600,
+            template='plotly_white',
+            showlegend=True,
+            legend_title_text='Cluster'
+        )
+        
+        # Calculate cluster statistics
+        cluster_stats = features.groupby('Cluster').agg({
+            'Return': ['mean', 'std', 'count'],
+            'Volatility': ['mean', 'std']
+        }).round(2)
+        
+        # Rename columns for better readability
+        cluster_stats.columns = [
+            'Average Return (%)',
+            'Return Std Dev (%)',
+            'Number of Stocks',
+            'Average Volatility (%)',
+            'Volatility Std Dev (%)'
+        ]
+        
+        return fig, cluster_stats
+        
+    except Exception as e:
+        st.error(f"Error in S&P 500 clustering: {str(e)}")
+        return None, None
 
 # Main Application
 def main():
@@ -1560,7 +1568,7 @@ def main():
                 "Number of Clusters",
                 min_value=3,
                 max_value=8,
-                value=3,
+                value=5,
                 step=1
             )
             
